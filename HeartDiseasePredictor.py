@@ -4,7 +4,6 @@ from joblib import load
 import matplotlib.pyplot as plt
 import zipfile
 import os
-import plotly.graph_objects as go
 
 st.set_page_config(page_title="AuraCare | Heart Disease Predictor", page_icon="❤️")
 st.title("👨🏻‍⚕️ AuraCare Heart Disease Prediction")
