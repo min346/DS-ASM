@@ -155,35 +155,28 @@ if submitted:
             st.error("❗ High risk. Prediction: HAS Heart Disease. Your probability is close to the upper cutoff. Please seek medical advice soon for detailed examination.")
 
         # Probability bar
-        fig_prob, ax_prob = plt.subplots(figsize=(6, 0.6))
+        with st.expander("📊 Probability of Heart Disease", expanded=True):
 
-        green_rgba = (50/255, 205/255, 50/255, 0.4)   # rgba(50,205,50,0.4)
-        red_rgba   = (220/255, 20/255, 60/255, 0.4)   # rgba(220,20,60,0.4)
+            fig_prob, ax_prob = plt.subplots(figsize=(6, 0.6))
 
-        # Bar color depends on threshold
-        bar_color = "limegreen" if proba < 0.25 else "crimson"
-        ax_prob.barh([0], [proba], height=0.4, color=bar_color)
+            # ✅ Conditional bar color
+            bar_color = "limegreen" if proba < 0.25 else "crimson"
 
-        # Background shading: <0.25 green, >=0.25 red
-        ax_prob.axvspan(0, 0.25, color=green_rgba, alpha=0.2)
-        ax_prob.axvspan(0.25, 0.5, color=red_rgba, alpha=0.2)
+            ax_prob.barh([0], [proba], height=0.3, color=bar_color)  # smaller bar height
+            ax_prob.set_xlim(0, 0.5)
+            ax_prob.set_yticks([])
+            ax_prob.set_xlabel("0 = Low   ————————   0.5 = High")
+            ax_prob.set_title("Risk Probability (cutoff = 0.25)")
 
-        # Axis and labels
-        ax_prob.set_xlim(0, 0.5)
-        ax_prob.set_yticks([])
-        ax_prob.set_xlabel("0 = Low   ————————   0.5 = High")
-        ax_prob.set_title("Risk Probability (cutoff = 0.25)")
+            # Red dashed threshold line
+            ax_prob.axvline(x=0.25, color="red", linestyle="--", linewidth=2, label="Threshold (0.25)")
 
-        # Threshold line
-        ax_prob.axvline(x=0.25, color="red", linestyle="--", linewidth=2, label="Threshold (0.25)")
-        ax_prob.legend(loc="upper right")
+            ax_prob.legend(loc="upper right")
 
-        # Clean frame
-        for spine in ["top", "right", "left"]:
-            ax_prob.spines[spine].set_visible(False)
+            for spine in ["top", "right", "left"]:
+                ax_prob.spines[spine].set_visible(False)
 
-        st.pyplot(fig_prob)
-
+            st.pyplot(fig_prob)
 
         # Feature importances
         with st.expander("📌 Top Feature Importances", expanded=True):
